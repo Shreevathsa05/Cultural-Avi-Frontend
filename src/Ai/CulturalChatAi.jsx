@@ -12,7 +12,8 @@ function CulturalChatAi() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const baseUrl = `https://cultural-ai-backend-sqft.onrender.com` + "err";
+  const baseUrl = `https://cultural-ai-backend-latest.onrender.com`;
+  // const baseUrl = `http://localhost:5000`
 
   useEffect(() => {
     scrollToBottom();
@@ -96,7 +97,7 @@ function CulturalChatAi() {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-orange-500 bg-clip-text text-transparent mb-2">
               Cultural AI Assistant
             </h1>
-            <p className="text-gray-600">Powered by Gemini AI with streaming responses</p>
+            <p className="text-gray-600">Powered by Devs</p>
             <div className="mt-3 inline-flex items-center px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm font-medium">
               <div className="w-2 h-2 bg-pink-500 rounded-full mr-2 animate-pulse"></div>
               Connected
@@ -117,7 +118,7 @@ function CulturalChatAi() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold">Gemini AI</h3>
+                  <h3 className="text-white font-semibold">Chat Avi</h3>
                   <p className="text-pink-100 text-sm">Always ready to help</p>
                 </div>
               </div>
@@ -134,10 +135,10 @@ function CulturalChatAi() {
                           ? "bg-gradient-to-r from-orange-400 to-pink-500"
                           : "bg-gradient-to-r from-pink-600 to-orange-400"
                       }`}>
-                        {msg.role === "user" ? "U" : "G"}
+                        {msg.role === "user" ? "U" : "A"}
                       </div>
                       <span className={`text-sm font-medium text-gray-600 ${msg.role === "user" ? "order-first mr-2" : "ml-2"}`}>
-                        {msg.role === "user" ? "You" : "Gemini"}
+                        {msg.role === "user" ? "You" : "Avi"}
                       </span>
                     </div>
 
@@ -241,7 +242,7 @@ function CulturalChatAi() {
 
             {/* Quick prompts */}
             <div className="mt-3 flex flex-wrap gap-2">
-              {["Tell me a joke", "Explain the particular festival", "Write a poem", "Well tell me more about special occasions"].map((prompt, index) => (
+              {["Introduce yourself", "Explain the particular festival", "Write a poem on India ", "Well tell me more about special occasions"].map((prompt, index) => (
                 <button
                   key={index}
                   onClick={() => setNewMessage(prompt)}

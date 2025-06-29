@@ -22,7 +22,9 @@ function CulturalVoiceAi() {
     { code: "en-US", label: "English (US)" },
   ];
 
-  const baseUrl = `https://cultural-ai-backend-sqft.onrender.com`+`err`;
+  const baseUrl = `https://cultural-ai-backend-latest.onrender.com`;
+  // const baseUrl = `http://localhost:5000`
+
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   const callSTT = () => {
