@@ -39,11 +39,14 @@ Follow these steps to run the project locally:
    cd Avi-Cultural-Ai-Frontend
 
 4. **Install dependencies:**
+
+```bash
 npm install
-
+```
 5. **Run the development server:**
-npm run dev
-
+```bash
+**npm run dev
+```
 The app will start on http://localhost:5173 (default Vite port).
 
 ##🛠️ Built With
