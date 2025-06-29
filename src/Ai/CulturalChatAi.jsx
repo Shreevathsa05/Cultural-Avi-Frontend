@@ -12,7 +12,7 @@ function CulturalChatAi() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const baseUrl = `https://cultural-ai-backend-sqft.onrender.com` +`err`;
+  const baseUrl = `https://cultural-ai-backend-sqft.onrender.com` + "err";
 
   useEffect(() => {
     scrollToBottom();
@@ -27,7 +27,7 @@ function CulturalChatAi() {
     setIsLoading(true);
 
     try {
-      const newUrl=`${baseUrl}/api/gemini-stream`
+      const newUrl = `${baseUrl}/api/gemini-stream`;
       const response = await fetch(newUrl, {
         method: "POST",
         headers: {
@@ -87,17 +87,18 @@ function CulturalChatAi() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-orange-50 to-yellow-100">
       <div className="max-w-4xl mx-auto flex flex-col h-screen">
+
         {/* Header */}
         <div className="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg border-b border-white border-opacity-30 p-6">
           <div className="text-center">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-orange-500 bg-clip-text text-transparent mb-2">
               Cultural AI Assistant
             </h1>
             <p className="text-gray-600">Powered by Gemini AI with streaming responses</p>
-            <div className="mt-3 inline-flex items-center px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+            <div className="mt-3 inline-flex items-center px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm font-medium">
+              <div className="w-2 h-2 bg-pink-500 rounded-full mr-2 animate-pulse"></div>
               Connected
             </div>
           </div>
@@ -106,17 +107,18 @@ function CulturalChatAi() {
         {/* Chat display */}
         <div className="flex-1 p-6 overflow-hidden">
           <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl shadow-xl border border-white border-opacity-30 h-full flex flex-col">
+
             {/* Chat header */}
-            <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-4 rounded-t-3xl">
+            <div className="bg-gradient-to-r from-pink-600 to-orange-400 p-4 rounded-t-3xl">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                   <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-purple-600 font-bold text-sm">G</span>
+                    <span className="text-pink-600 font-bold text-sm">G</span>
                   </div>
                 </div>
                 <div>
                   <h3 className="text-white font-semibold">Gemini AI</h3>
-                  <p className="text-purple-100 text-sm">Always ready to help</p>
+                  <p className="text-pink-100 text-sm">Always ready to help</p>
                 </div>
               </div>
             </div>
@@ -126,65 +128,59 @@ function CulturalChatAi() {
               {messages.map((msg, index) => (
                 <div key={index} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div className={`max-w-xs lg:max-w-md transform transition-all duration-300 hover:scale-105`}>
-                    {/* Avatar and name */}
                     <div className={`flex items-center mb-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${
-                        msg.role === "user" 
-                          ? "bg-gradient-to-r from-blue-500 to-blue-600" 
-                          : "bg-gradient-to-r from-purple-500 to-purple-600"
+                        msg.role === "user"
+                          ? "bg-gradient-to-r from-orange-400 to-pink-500"
+                          : "bg-gradient-to-r from-pink-600 to-orange-400"
                       }`}>
                         {msg.role === "user" ? "U" : "G"}
                       </div>
-                      <span className={`text-sm font-medium text-gray-600 ${
-                        msg.role === "user" ? "order-first mr-2" : "ml-2"
-                      }`}>
+                      <span className={`text-sm font-medium text-gray-600 ${msg.role === "user" ? "order-first mr-2" : "ml-2"}`}>
                         {msg.role === "user" ? "You" : "Gemini"}
                       </span>
                     </div>
-                    
-                    {/* Message bubble */}
+
                     <div className={`px-4 py-3 rounded-2xl shadow-lg relative ${
-                      msg.role === "user" 
-                        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-br-md" 
+                      msg.role === "user"
+                        ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white rounded-br-md"
                         : msg.role === "model-temp"
-                        ? "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 rounded-bl-md border-2 border-purple-200 animate-pulse"
-                        : "bg-gradient-to-r from-gray-50 to-white text-gray-800 rounded-bl-md border border-gray-200"
+                          ? "bg-gradient-to-r from-pink-100 to-orange-100 text-gray-800 rounded-bl-md border-2 border-pink-200 animate-pulse"
+                          : "bg-gradient-to-r from-white to-orange-50 text-gray-800 rounded-bl-md border border-gray-200"
                     }`}>
                       <div className="text-sm leading-relaxed whitespace-pre-wrap">
                         {msg.content}
                       </div>
-                      
-                      {/* Typing indicator for streaming */}
                       {msg.role === "model-temp" && (
                         <div className="flex items-center mt-2">
                           <div className="flex space-x-1">
-                            <div className="w-1 h-1 bg-purple-500 rounded-full animate-bounce"></div>
-                            <div className="w-1 h-1 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                            <div className="w-1 h-1 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                            <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce"></div>
+                            <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
-                          <span className="text-xs text-purple-600 ml-2">streaming...</span>
+                          <span className="text-xs text-pink-600 ml-2">streaming...</span>
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
               ))}
-              
+
               {isLoading && messages.filter(msg => msg.role === "model-temp").length === 0 && (
                 <div className="flex justify-start">
                   <div className="max-w-xs lg:max-w-md">
                     <div className="flex items-center mb-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-600 to-orange-400 flex items-center justify-center text-white text-sm font-medium">
                         G
                       </div>
                       <span className="ml-2 text-sm font-medium text-gray-600">Gemini</span>
                     </div>
-                    <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-2xl rounded-bl-md px-4 py-3 shadow-lg">
+                    <div className="bg-gradient-to-r from-pink-100 to-orange-100 rounded-2xl rounded-bl-md px-4 py-3 shadow-lg">
                       <div className="flex items-center space-x-2 text-gray-600">
                         <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                          <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                          <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                         </div>
                         <span className="text-sm">Thinking...</span>
                       </div>
@@ -192,7 +188,7 @@ function CulturalChatAi() {
                   </div>
                 </div>
               )}
-              
+
               <div ref={messagesEndRef} />
             </div>
           </div>
@@ -201,11 +197,11 @@ function CulturalChatAi() {
         {/* Input area */}
         <div className="p-6">
           <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl shadow-xl border border-white border-opacity-30 p-4">
-            <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
               <div className="flex-1 relative">
                 <input
                   type="text"
-                  className="w-full border-2 border-gray-300 rounded-xl px-4 py-3 pr-12 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-300"
+                  className="w-full border-2 border-gray-300 rounded-xl px-4 py-3 pr-12 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 hover:border-pink-300"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyDown={(e) => {
@@ -217,17 +213,15 @@ function CulturalChatAi() {
                   placeholder="Type your message... (Press Enter to send)"
                   disabled={isLoading}
                 />
-                
-                {/* Character count indicator */}
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
                   {newMessage.length}
                 </div>
               </div>
-              
+
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !newMessage.trim()}
-                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 disabled:from-gray-400 disabled:to-gray-500 text-white px-6 py-3 rounded-xl font-medium shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed flex items-center space-x-2"
+                className="bg-gradient-to-r from-pink-600 to-orange-400 hover:from-pink-700 hover:to-orange-500 disabled:from-gray-400 disabled:to-gray-500 text-white px-6 py-3 rounded-xl font-medium shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed flex items-center space-x-2"
               >
                 {isLoading ? (
                   <>
@@ -244,14 +238,14 @@ function CulturalChatAi() {
                 )}
               </button>
             </div>
-            
-            {/* Quick actions */}
+
+            {/* Quick prompts */}
             <div className="mt-3 flex flex-wrap gap-2">
-              {["Tell me a joke", "Explain quantum physics", "Write a poem", "Help me code"].map((prompt, index) => (
+              {["Tell me a joke", "Explain the particular festival", "Write a poem", "Well tell me more about special occasions"].map((prompt, index) => (
                 <button
                   key={index}
                   onClick={() => setNewMessage(prompt)}
-                  className="px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm transition-colors duration-200"
+                  className="px-3 py-1 bg-pink-100 hover:bg-pink-200 text-pink-700 rounded-full text-sm transition-colors duration-200"
                   disabled={isLoading}
                 >
                   {prompt}
