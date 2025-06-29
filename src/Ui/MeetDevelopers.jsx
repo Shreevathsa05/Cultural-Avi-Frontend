@@ -4,7 +4,7 @@ import React from 'react';
 const developers = [
   {
     name: 'Shreevathsa Bhat',
-    image: '/shree.png',
+    image: '/shree.jpg',
     github: 'https://github.com/Shreevathsa05',
     email: 'bhatshreevathsa17@gmail.com',
     linkedIn: 'https://www.linkedin.com/in/shreevathsa-bhat-228157235/',

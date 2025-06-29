@@ -2,68 +2,61 @@ import React, { useState, useRef, useEffect } from 'react';
 
 function CulturalChatAi() {
   const [messages, setMessages] = useState([
-    { role: "model", content: "Hello! I am Gemini. Ask me anything." }
+    { role: 'model', content: 'Hello! I am Avi. Ask me anything.' }
   ]);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const baseUrl = `https://cultural-ai-backend-latest.onrender.com`;
-  // const baseUrl = `http://localhost:5000`
+  const baseUrl = 'https://avi-backend-xedj.onrender.com';
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
-    const updatedMessages = [...messages, { role: "user", content: newMessage }];
+    const updatedMessages = [...messages, { role: 'user', content: newMessage }];
     setMessages(updatedMessages);
-    setNewMessage("");
+    setNewMessage('');
     setIsLoading(true);
 
     try {
-      const newUrl = `${baseUrl}/api/gemini-stream`;
-      const response = await fetch(newUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+      const response = await fetch(`${baseUrl}/api/gemini-stream`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          chats: updatedMessages,
-          newMessage: newMessage
-        })
+          chats: messages,
+          newMessage: newMessage,
+        }),
       });
 
-      if (!response.body) {
-        throw new Error("No response body");
-      }
+      if (!response.body) throw new Error('No response body');
 
       const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let modelMessage = "";
+      const decoder = new TextDecoder('utf-8');
+      let fullMessage = '';
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
         const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split("\n");
+        const lines = chunk.split('\n');
 
         for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = JSON.parse(line.replace("data: ", ""));
+          if (line.startsWith('data: ')) {
+            const data = JSON.parse(line.replace('data: ', ''));
             if (data.content) {
-              modelMessage += data.content;
-              setMessages(prev => [
-                ...prev.filter(msg => msg.role !== "model-temp"),
-                { role: "model-temp", content: modelMessage }
-              ]);
+              fullMessage += data.content;
+              setMessages(prev =>
+                [...prev.filter(m => m.role !== 'model-temp'), { role: 'model-temp', content: fullMessage }]
+              );
             }
           }
         }
@@ -71,16 +64,14 @@ function CulturalChatAi() {
 
       setMessages(prev =>
         prev.map(msg =>
-          msg.role === "model-temp"
-            ? { role: "model", content: msg.content }
-            : msg
+          msg.role === 'model-temp' ? { role: 'model', content: msg.content } : msg
         )
       );
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Streaming error:', error);
       setMessages(prev => [
         ...prev,
-        { role: "model", content: "Sorry, I encountered an error. Please try again." }
+        { role: 'model', content: 'Sorry, I encountered an error. Please try again.' }
       ]);
     } finally {
       setIsLoading(false);
@@ -97,7 +88,7 @@ function CulturalChatAi() {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-orange-500 bg-clip-text text-transparent mb-2">
               Cultural AI Assistant
             </h1>
-            <p className="text-gray-600">Powered by Devs</p>
+            <p className="text-gray-600">Powered by Gemini</p>
             <div className="mt-3 inline-flex items-center px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm font-medium">
               <div className="w-2 h-2 bg-pink-500 rounded-full mr-2 animate-pulse"></div>
               Connected
@@ -105,11 +96,9 @@ function CulturalChatAi() {
           </div>
         </div>
 
-        {/* Chat display */}
+        {/* Chat Display */}
         <div className="flex-1 p-6 overflow-hidden">
           <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl shadow-xl border border-white border-opacity-30 h-full flex flex-col">
-
-            {/* Chat header */}
             <div className="bg-gradient-to-r from-pink-600 to-orange-400 p-4 rounded-t-3xl">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -124,40 +113,38 @@ function CulturalChatAi() {
               </div>
             </div>
 
-            {/* Messages container */}
+            {/* Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6" style={{ maxHeight: 'calc(100vh - 320px)' }}>
               {messages.map((msg, index) => (
-                <div key={index} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-xs lg:max-w-md transform transition-all duration-300 hover:scale-105`}>
-                    <div className={`flex items-center mb-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className="max-w-xs lg:max-w-md transform transition-all duration-300 hover:scale-105">
+                    <div className={`flex items-center mb-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${
-                        msg.role === "user"
-                          ? "bg-gradient-to-r from-orange-400 to-pink-500"
-                          : "bg-gradient-to-r from-pink-600 to-orange-400"
+                        msg.role === 'user'
+                          ? 'bg-gradient-to-r from-orange-400 to-pink-500'
+                          : 'bg-gradient-to-r from-pink-600 to-orange-400'
                       }`}>
-                        {msg.role === "user" ? "U" : "A"}
+                        {msg.role === 'user' ? 'U' : 'A'}
                       </div>
-                      <span className={`text-sm font-medium text-gray-600 ${msg.role === "user" ? "order-first mr-2" : "ml-2"}`}>
-                        {msg.role === "user" ? "You" : "Avi"}
+                      <span className={`text-sm font-medium text-gray-600 ${msg.role === 'user' ? 'order-first mr-2' : 'ml-2'}`}>
+                        {msg.role === 'user' ? 'You' : 'Avi'}
                       </span>
                     </div>
 
                     <div className={`px-4 py-3 rounded-2xl shadow-lg relative ${
-                      msg.role === "user"
-                        ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white rounded-br-md"
-                        : msg.role === "model-temp"
-                          ? "bg-gradient-to-r from-pink-100 to-orange-100 text-gray-800 rounded-bl-md border-2 border-pink-200 animate-pulse"
-                          : "bg-gradient-to-r from-white to-orange-50 text-gray-800 rounded-bl-md border border-gray-200"
+                      msg.role === 'user'
+                        ? 'bg-gradient-to-r from-orange-400 to-pink-500 text-white rounded-br-md'
+                        : msg.role === 'model-temp'
+                          ? 'bg-gradient-to-r from-pink-100 to-orange-100 text-gray-800 rounded-bl-md border-2 border-pink-200 animate-pulse'
+                          : 'bg-gradient-to-r from-white to-orange-50 text-gray-800 rounded-bl-md border border-gray-200'
                     }`}>
-                      <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {msg.content}
-                      </div>
-                      {msg.role === "model-temp" && (
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
+                      {msg.role === 'model-temp' && (
                         <div className="flex items-center mt-2">
                           <div className="flex space-x-1">
                             <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce"></div>
-                            <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce delay-100"></div>
+                            <div className="w-1 h-1 bg-pink-500 rounded-full animate-bounce delay-200"></div>
                           </div>
                           <span className="text-xs text-pink-600 ml-2">streaming...</span>
                         </div>
@@ -167,21 +154,19 @@ function CulturalChatAi() {
                 </div>
               ))}
 
-              {isLoading && messages.filter(msg => msg.role === "model-temp").length === 0 && (
+              {isLoading && !messages.some(m => m.role === 'model-temp') && (
                 <div className="flex justify-start">
                   <div className="max-w-xs lg:max-w-md">
                     <div className="flex items-center mb-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-600 to-orange-400 flex items-center justify-center text-white text-sm font-medium">
-                        G
-                      </div>
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-600 to-orange-400 flex items-center justify-center text-white text-sm font-medium">G</div>
                       <span className="ml-2 text-sm font-medium text-gray-600">Gemini</span>
                     </div>
                     <div className="bg-gradient-to-r from-pink-100 to-orange-100 rounded-2xl rounded-bl-md px-4 py-3 shadow-lg">
                       <div className="flex items-center space-x-2 text-gray-600">
                         <div className="flex space-x-1">
                           <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce delay-100"></div>
+                          <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce delay-200"></div>
                         </div>
                         <span className="text-sm">Thinking...</span>
                       </div>
@@ -195,7 +180,7 @@ function CulturalChatAi() {
           </div>
         </div>
 
-        {/* Input area */}
+        {/* Input */}
         <div className="p-6">
           <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl shadow-xl border border-white border-opacity-30 p-4">
             <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
@@ -206,7 +191,7 @@ function CulturalChatAi() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
                       sendMessage();
                     }
@@ -222,8 +207,7 @@ function CulturalChatAi() {
               <button
                 onClick={sendMessage}
                 disabled={isLoading || !newMessage.trim()}
-                className="bg-gradient-to-r from-pink-600 to-orange-400 hover:from-pink-700 hover:to-orange-500 disabled:from-gray-400 disabled:to-gray-500 text-white px-6 py-3 rounded-xl font-medium shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed flex items-center space-x-2"
-              >
+                className="bg-gradient-to-r from-pink-600 to-orange-400 hover:from-pink-700 hover:to-orange-500 disabled:from-gray-400 disabled:to-gray-500 text-white px-6 py-3 rounded-xl font-medium shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed flex items-center space-x-2">
                 {isLoading ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -231,7 +215,8 @@ function CulturalChatAi() {
                   </>
                 ) : (
                   <>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  
+                    <svg className="w-4 h-4 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
                     <span>Send</span>
@@ -240,9 +225,8 @@ function CulturalChatAi() {
               </button>
             </div>
 
-            {/* Quick prompts */}
             <div className="mt-3 flex flex-wrap gap-2">
-              {["Introduce yourself", "Explain the particular festival", "Write a poem on India ", "Well tell me more about special occasions"].map((prompt, index) => (
+              {["Introduce yourself", "Explain the Deepawali as festival", "Write a poem", "Tell me about special occasions in this month"].map((prompt, index) => (
                 <button
                   key={index}
                   onClick={() => setNewMessage(prompt)}
