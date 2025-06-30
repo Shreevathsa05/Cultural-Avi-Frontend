@@ -1,12 +1,66 @@
-# React + Vite
+# Avi Cultural AI (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📜 Description
 
-Currently, two official plugins are available:
+Avi Cultural AI Frontend is a React-based web application designed to interact with Avi's Cultural AI backend services. It provides users with an intuitive interface to explore, query, and visualise cultural knowledge and AI outputs. This project exists to democratise cultural AI access with a user-friendly and responsive frontend experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📦 Features
 
-## Expanding the ESLint configuration
+- 🌐 **Responsive UI** built with React and Tailwind CSS
+- ⚡ **Custom Node.js backend** for cultural AI queries
+- 🎨 **Dynamic components** with animations and Gen-Z vibe
+- 🗣️ **Speech-to-speech generation** – no hassle of typing or reading, with support for 11+ languages
+- 📝 **Text-to-text generation**
+- 🔧 **Easy configuration and setup**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Getting Started / Installation
+
+- Clone and configure the backend from [Avi AI Backend Repository](https://github.com/Shreevathsa05/Avi-ai-Backend.git).
+Follow these steps to run the project locally:
+
+1. **Authenticate with Google Cloud:**
+
+   - Perform authentication with `gcloud` shell.
+   - Set your project using:
+     ```bash
+     gcloud auth login
+     gcloud config set project [YOUR_PROJECT_ID]
+     ```
+
+2. **Enable required Google Cloud services:**
+
+   - Vertex AI
+   - Cloud Text-to-Speech API
+
+3. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/Shreevathsa05/Avi-Cultural-Ai-Frontend.git
+   cd Avi-Cultural-Ai-Frontend
+
+4. **Install dependencies:**
+
+```bash
+npm install
+```
+5. **Run the development server:**
+```bash
+**npm run dev
+```
+The app will start on http://localhost:5173 (default Vite port).
+
+##🛠️ Built With
+React
+Vite
+Tailwind CSS
+Framer Motion
+GSAP
+
+## 🙏 Acknowledgements:
+
+Images: Generated using designer.microsoft.com
+Songs: Generated using sumo.com
+
+## 🏆 Reason To Build: 
+Figure Out the use case of AI and explore my own capabilities
+Built to participate and win BuildIt Hackathon by Bal Bharati Public School, Pitampura.
