@@ -8,8 +8,8 @@ function CulturalVoiceAi() {
   const [audioSrc, setAudioSrc] = useState(null);
 
   const LANG_OPTIONS = [
-    { code: "bn-IN", label: "Bengali (India)" },
     { code: "en-IN", label: "English (India)" },
+    { code: "bn-IN", label: "Bengali (India)" },
     { code: "gu-IN", label: "Gujarati (India)" },
     { code: "hi-IN", label: "Hindi (India)" },
     { code: "kn-IN", label: "Kannada (India)" },
@@ -52,30 +52,31 @@ function CulturalVoiceAi() {
   };
 
   const handleUserMessage = async (userText) => {
-    const updatedMessages = [...messages, { role: "user", content: userText }];
-    setMessages(updatedMessages);
-    setIsLoading(true);
+  const updatedMessages = [...messages, { role: "user", content: userText }];
+  setMessages(updatedMessages);
+  setIsLoading(true);
 
-    try {
-      const response = await fetch(`${baseUrl}/api/voice`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chats: messages.map(({ role, content }) => ({ role, content })),
-          newMessage: userText,
-          languageCode: language,
-        }),
-      });
+  try {
+    const response = await fetch(`${baseUrl}/api/voice`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chats: updatedMessages.map(({ role, content }) => ({ role, content })),
+        newMessage: userText,
+        languageCode: language,
+      }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (data.error) {
-        console.error("API error:", data.error);
-        return;
-      }
+    if (data.error) {
+      console.error("API error:", data.error);
+      return;
+    }
 
-      setMessages(prev => [...prev, { role: "model", content: data.text }]);
+    setMessages(prev => [...prev, { role: "model", content: data.text }]);
 
+    if (data.audioContent) {
       const byteArray = Uint8Array.from(atob(data.audioContent), c => c.charCodeAt(0));
       const blob = new Blob([byteArray], { type: "audio/mpeg" });
       const url = URL.createObjectURL(blob);
@@ -83,12 +84,53 @@ function CulturalVoiceAi() {
 
       const audio = new Audio(url);
       audio.play();
-    } catch (err) {
-      console.error("Error calling API:", err);
-    } finally {
-      setIsLoading(false);
     }
-  };
+
+  } catch (err) {
+    console.error("Error calling API:", err);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+  // const handleUserMessage = async (userText) => {
+  //   const updatedMessages = [...messages, { role: "user", content: userText }];
+  //   setMessages(updatedMessages);
+  //   setIsLoading(true);
+
+  //   try {
+  //     const response = await fetch(`${baseUrl}/api/voice`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         chats: messages.map(({ role, content }) => ({ role, content })),
+  //         newMessage: userText,
+  //         languageCode: language,
+  //       }),
+  //     });
+
+  //     const data = await response.json();
+
+  //     if (data.error) {
+  //       console.error("API error:", data.error);
+  //       return;
+  //     }
+
+  //     setMessages(prev => [...prev, { role: "model", content: data.text }]);
+
+  //     const byteArray = Uint8Array.from(atob(data.audioContent), c => c.charCodeAt(0));
+  //     const blob = new Blob([byteArray], { type: "audio/mpeg" });
+  //     const url = URL.createObjectURL(blob);
+  //     setAudioSrc(url);
+
+  //     const audio = new Audio(url);
+  //     audio.play();
+  //   } catch (err) {
+  //     console.error("Error calling API:", err);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-100 p-4">

@@ -19,22 +19,22 @@ function CulturalChatAi() {
   };
 
   const sendMessage = async () => {
-    if (!newMessage.trim()) return;
+  if (!newMessage.trim()) return;
 
-    const updatedMessages = [...messages, { role: 'user', content: newMessage }];
-    setMessages(updatedMessages);
-    setNewMessage('');
-    setIsLoading(true);
+  const updatedMessages = [...messages, { role: 'user', content: newMessage }];
+  setMessages(updatedMessages);
+  setNewMessage('');
+  setIsLoading(true);
 
-    try {
-      const response = await fetch(`${baseUrl}/api/gemini-stream`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chats: messages,
-          newMessage: newMessage,
-        }),
-      });
+  try {
+    const response = await fetch(`${baseUrl}/api/gemini-stream`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chats: updatedMessages, // <== use updatedMessages here
+        newMessage: newMessage,
+      }),
+    });
 
       if (!response.body) throw new Error('No response body');
 
