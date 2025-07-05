@@ -20,8 +20,7 @@ function CulturalVoiceAi() {
     { code: "te-IN", label: "Telugu (India)" },
     { code: "ur-IN", label: "Urdu (India)" },
   ];
-
-  const baseUrl = `https://avi-backend-xedj.onrender.com`;
+  const baseUrl = import.meta.env.VITE_API_URL;
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   const callSTT = () => {

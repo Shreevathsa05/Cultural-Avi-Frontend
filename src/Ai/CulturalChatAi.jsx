@@ -8,7 +8,7 @@ function CulturalChatAi() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const baseUrl = 'https://avi-backend-xedj.onrender.com';
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     scrollToBottom();
