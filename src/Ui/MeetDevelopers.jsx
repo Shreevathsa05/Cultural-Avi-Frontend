@@ -9,13 +9,6 @@ const developers = [
     email: 'bhatshreevathsa17@gmail.com',
     linkedIn: 'https://www.linkedin.com/in/shreevathsa-bhat-228157235/',
   },
-  {
-    name: 'Parth Gupta',
-    image: '/parth.png',
-    github: 'https://github.com/Parth-Gupta05',
-    email: 'parthgupta20052005@gmail.com',
-    linkedIn: 'https://www.linkedin.com/in/parth-gupta-8a7521215/',
-  },
 ];
 
 export default function MeetDevelopers() {
