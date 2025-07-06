@@ -66,7 +66,8 @@ function Home() {
 </div>
 
 {/* Meet devs */}
-<MeetDevelopers></MeetDevelopers>
+<div className="flex justify-center items-center">
+<MeetDevelopers/></div>
     </div>
   )
 }
